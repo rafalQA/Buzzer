@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Log in to buzzer</title>
+    <link href="/css/login.css" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<div class="modal fade" id="login-modal">
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <h1>Login to Buzzer !!!</h1>
+            <form th:action="@{/login}" method="post">
+                <input type="text" name="username" placeholder="Username"/>
+                <input type="password" name="password" placeholder="Password"/>
+                <input type="submit"  value="sing in"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
