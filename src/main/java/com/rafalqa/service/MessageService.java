@@ -1,7 +1,6 @@
 package com.rafalqa.service;
 
 import com.rafalqa.model.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Service;
 public class MessageService {
 
     private SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
+    
     public MessageService(SimpMessagingTemplate messagingTemplate){
         this.messagingTemplate = messagingTemplate;
     }
