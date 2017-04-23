@@ -11,11 +11,11 @@ import java.util.Set;
  * Created by rpiotrowicz on 2017-04-13.
  */
 @Controller
-public class ViewsController {
+public class ViewsControllerConfig {
 
     private UserService userService;
 
-    public ViewsController(UserService userService){
+    public ViewsControllerConfig(UserService userService){
         this.userService = userService;
     }
 

@@ -1,19 +1,9 @@
-var conversionWindow = "<div  class=\"btn-group\" id=\"chat-window\">\n"+
-                                       "        <div class=\"message-container\">\n"+
-                                       "            <div class=\"panel panel-default\">\n"+
-                                       "                <div class=\"panel-heading\">Panel Heading</div>\n"+
-                                       "                <div class=\"panel-body\" id=\"messageArea\" style=\"overflow: scroll; overflow: scroll; width: 300px; height: 250px;\"></div>\n"+
-                                       "                <input type=\"text\" class=\"form-control\" id=\"status_message\" placeholder=\"Type your message\"/>\n"+
-                                       "                    <span class=\"glyphicon glyphicon-send\" id=\"send\"></span>\n"+
-                                       "            </div>\n"+
-                                       "        </div>\n"+
-                                       "    </div>";
-
-
-  $(function(){
+$(function(){
 $("li").on("click", (function () {
-          $(document.body).append(conversionWindow);
-           $(this).attr('id', "selected");
+          $("#selected").removeAttr('id');
+          $(this).attr('id', "selected");
+           var user = $("#selected").text()
+          $(document.body).append(getConversionWindow(user));
             connect();
             }));
 
@@ -50,13 +40,34 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'content': $("#status_message").val(),'recipient': $("#selected").text()}));
-    $("#status_message").val("");
+
+    var input = $("#current").find(".form-control");
+    var userPanel = $("#current").find(".panel-heading");
+    stompClient.send("/app/hello", {}, JSON.stringify({'content': input.val(),'recipient': userPanel.text()}));
+    input.val("");
+}
+
+function getConversionWindow(userName){
+  return "<div  class=\"btn-group\">\n"+
+"        <div class=\"message-container\">\n"+
+"            <div class=\"panel panel-default\">\n"+
+"                <div class=\"panel-heading\">" + userName + "</div>\n"+
+"                <div class=\"panel-body\" id=\"messageArea\" style=\"overflow: scroll; overflow: scroll; width: 300px; height: 250px;\"></div>\n"+
+"                <input type=\"text\" class=\"form-control\" placeholder=\"Type your message\"/>\n"+
+"                    <span class=\"glyphicon glyphicon-send\"></span>\n"+
+"            </div>\n"+
+"        </div>\n"+
+"    </div>";
+
 }
 
 $(function () {
     $("#removeClass").click(function() { disconnect(); });
-    $(document).on('click', '#send', function() { sendName(); });
+    $(document).on('click', '.glyphicon.glyphicon-send', function() { sendName(); });
+    $(document).on('click', '.form-control', function(){
+        $("#current").removeAttr("id");
+        $(this).parent().closest('div').attr('id', 'current')
+    })
 });
 
 

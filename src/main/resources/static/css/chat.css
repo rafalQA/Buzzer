@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-#chat-window{
+.chat-window{
 }
 
 .panel-body{
@@ -20,5 +20,5 @@
    height: 350px;
 }
 
-#send{
+.send{
 }
