@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
  * Created by rpiotrowicz on 2017-04-18.
  */
 @Service
-public class MessageService {
+public class MessagingService {
 
     private SimpMessagingTemplate messagingTemplate;
-    
-    public MessageService(SimpMessagingTemplate messagingTemplate){
+
+    public MessagingService(SimpMessagingTemplate messagingTemplate){
         this.messagingTemplate = messagingTemplate;
     }
 

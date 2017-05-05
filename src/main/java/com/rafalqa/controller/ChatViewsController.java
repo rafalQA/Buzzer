@@ -1,29 +1,31 @@
-package com.rafalqa.config;
+package com.rafalqa.controller;
 
-import com.rafalqa.service.UserService;
+import com.rafalqa.service.DaoUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.Set;
 
 /**
  * Created by rpiotrowicz on 2017-04-13.
  */
 @Controller
-public class ViewsControllerConfig {
+public class ChatViewsController {
 
-    private UserService userService;
+    private DaoUserService userService;
 
-    public ViewsControllerConfig(UserService userService){
+    public ChatViewsController(DaoUserService userService){
         this.userService = userService;
     }
 
     @RequestMapping("/chat")
-    public String getChat(Model model){
+    public String getChat(Model model, Principal principal){
         Set<String> usersNames = userService.getUsersNames();
 
         model.addAttribute("usersNames", usersNames);
+        model.addAttribute("user", principal.getName());
 
         return "chat";
     }

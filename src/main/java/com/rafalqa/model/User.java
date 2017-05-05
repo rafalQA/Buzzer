@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Set;
  */
 
 @Entity
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +30,12 @@ public class User implements UserDetails{
     @Column(name = "ROLES")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
+            cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Message> messages;
 
 
-    public User(){
+    public User() {
 
     }
 

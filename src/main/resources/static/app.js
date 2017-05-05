@@ -1,9 +1,11 @@
+
+var user;
 $(function(){
 $("li").on("click", (function () {
           $("#selected").removeAttr('id');
           $(this).attr('id', "selected");
-           var user = $("#selected").text()
-          $(document.body).append(getConversionWindow(user));
+           user = $("#selected").text()
+          $(document.body).append(getConversionWindow());
             connect();
             }));
 
@@ -28,7 +30,9 @@ function connect() {
 }
 
 function showMessage(message) {
-    $("#messageArea").append("<h5>" + message.userName+ "</h5><div id=\"message\">"+
+    var area = $(".panel-heading");
+
+    area.append("<h5>" + message.senderName + "</h5><div id=\"message\">"+
             "<p>" + message.content + "</p></div>");
 }
 
@@ -44,15 +48,18 @@ function sendName() {
     var input = $("#current").find(".form-control");
     var userPanel = $("#current").find(".panel-heading");
     stompClient.send("/app/hello", {}, JSON.stringify({'content': input.val(),'recipient': userPanel.text()}));
+    var area = $("#current").find(".panel-body");
+    area.append("<h5>" + $("h1").text() + "</h5><div id=\"message\">"+
+                "<p>" + input.val() + "</p></div>");
     input.val("");
 }
 
-function getConversionWindow(userName){
+function getConversionWindow(){
   return "<div  class=\"btn-group\">\n"+
 "        <div class=\"message-container\">\n"+
 "            <div class=\"panel panel-default\">\n"+
-"                <div class=\"panel-heading\">" + userName + "</div>\n"+
-"                <div class=\"panel-body\" id=\"messageArea\" style=\"overflow: scroll; overflow: scroll; width: 300px; height: 250px;\"></div>\n"+
+"                <div class=\"panel-heading\">" + user + "</div>\n"+
+"                <div class=\"panel-body\" style=\"overflow: scroll; overflow: scroll; width: 300px; height: 250px;\"></div>\n"+
 "                <input type=\"text\" class=\"form-control\" placeholder=\"Type your message\"/>\n"+
 "                    <span class=\"glyphicon glyphicon-send\"></span>\n"+
 "            </div>\n"+
@@ -64,7 +71,7 @@ function getConversionWindow(userName){
 $(function () {
     $("#removeClass").click(function() { disconnect(); });
     $(document).on('click', '.glyphicon.glyphicon-send', function() { sendName(); });
-    $(document).on('click', '.form-control', function(){
+    $(document).on('click', '.btn-group', function(){
         $("#current").removeAttr("id");
         $(this).parent().closest('div').attr('id', 'current')
     })

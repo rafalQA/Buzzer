@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
  * Created by rpiotrowicz on 2017-04-14.
  */
 @Service
-public class UserService {
+public class DaoUserService {
 
     private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository){
+    public DaoUserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 

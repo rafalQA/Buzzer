@@ -2,7 +2,8 @@ package com.rafalqa.controller;
 
 import com.rafalqa.model.Message;
 import com.rafalqa.model.MessageDto;
-import com.rafalqa.service.MessageService;
+import com.rafalqa.service.DaoMessageService;
+import com.rafalqa.service.MessagingService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
@@ -16,19 +17,25 @@ import java.security.Principal;
 public class MessageController {
 
 
-    private MessageService messageService;
+    private MessagingService messagingService;
+    private DaoMessageService daoMessageService;
 
-    public MessageController(MessageService messageService){
-        this.messageService = messageService;
+    public MessageController(MessagingService messagingService, DaoMessageService daoMessageService){
+        this.messagingService = messagingService;
+        this.daoMessageService = daoMessageService;
     }
 
     @MessageMapping("/hello")
     public void sendMessage(MessageDto messageDto, Principal principal) throws InterruptedException {
-        String user = messageDto.getRecipient();
+        String recipient = messageDto.getRecipient();
+        String user = principal.getName();
 
         Message message = new Message(messageDto.getContent());
-        message.setUserName(principal.getName());
+        message.setSenderName(user);
+        message.setRecipient(recipient);
 
-        messageService.convertAndSendToUser(user, message);
+        daoMessageService.saveMessageForUser(user, message);
+
+        messagingService.convertAndSendToUser(recipient, message);
     }
 }
